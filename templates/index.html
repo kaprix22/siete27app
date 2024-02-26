@@ -9,44 +9,8 @@
 </head>
 <body>
 <br>
- <h1>Bienvenido a Mi Aplicación</h1>
+ <h1>Bienvenido!</h1>
 
-<form id="calculadoraForm">
-  <label for="billete_2000">Billetes de 2000:</label>
-  <input type="number" id="billete_2000" name="billete_2000" value="0" onchange="calcularTotal()"><br><br>
-  <label for="billete_1000">Billetes de 1000:</label>
-  <input type="number" id="billete_1000" name="billete_1000" value="0" onchange="calcularTotal()"><br><br>
-  <label for="billete_500">Billetes de 500:</label>
-  <input type="number" id="billete_500" name="billete_500" value="0" onchange="calcularTotal()"><br><br>
-  <label for="billete_200">Billetes de 200:</label>
-  <input type="number" id="billete_200" name="billete_200" value="0" onchange="calcularTotal()"><br><br>
-  <label for="billete_100">Billetes de 100:</label>
-  <input type="number" id="billete_100" name="billete_100" value="0" onchange="calcularTotal()"><br><br>
-  <label for="cambio">Cambio:</label>
-  <input type="number" id="cambio" name="cambio" value="0" onchange="calcularTotal()"><br><br>
-  <label for="fajos">Fajos:</label>
-  <input type="number" id="fajos" name="fajos" value="0" onchange="calcularTotal()"><br><br>
-</form>
-<div>
-  <h2>Resultado:</h2>
-  <p>Total: <span id="total">0</span></p>
-</div>
-
-<script>
-function calcularTotal() {
-    var billete_2000 = parseInt(document.getElementById('billete_2000').value) || 0;
-    var billete_1000 = parseInt(document.getElementById('billete_1000').value) || 0;
-    var billete_500 = parseInt(document.getElementById('billete_500').value) || 0;
-    var billete_200 = parseInt(document.getElementById('billete_200').value) || 0;
-    var billete_100 = parseInt(document.getElementById('billete_100').value) || 0;
-    var cambio = parseInt(document.getElementById('cambio').value) || 0;
-    var fajos = parseInt(document.getElementById('fajos').value) || 0;
-
-    var total = (billete_2000 * 2000) + (billete_1000 * 1000) + (billete_500 * 500) + (billete_200 * 200) + (billete_100 * 100) + cambio + fajos;
-
-    document.getElementById('total').textContent = total;
-}
-</script>
 </body>
 </html>
 {% endblock %}
