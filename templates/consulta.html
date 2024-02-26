@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Aplicación</title>
+</head>
+<body>
+    {% extends 'base.html' %}
+    {% block content %}
+    <br>
+    <h1>Consulta</h1>
+    <br>
+    <form method="POST">
+        <label for="codigo">Código:</label>
+        <input type="text" id="codigo" name="codigo">
+        <input type="submit" value="Buscar">
+    </form>
+{% if results %}
+    <br>
+
+<h2>Resultados:</h2>
+
+<table class="table table-striped">
+    <tr>
+        <th>Descripción</th>
+        <th>Precio Venta</th>
+        <th>Base de datos</th>
+    </tr>
+    {% for key, value in results.items() %}
+        {% for row in value %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ key }}</td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+{% endif %}
+    {% endblock %}
+</body>
+</html>

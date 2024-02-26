@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Aplicación web de contabilidad</title>
+    <!-- Importar Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Importar jQuery y Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <!-- Importar Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Caja</h1>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Agregar un nuevo movimiento</h2>
+                <form action="/agregar" method="POST">
+                    <div class="form-group">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" name="fecha" value="{{ fecha_actual }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select class="form-control" id="tipo" name="tipo" required>
+                            <option value="ingreso">Ingreso</option>
+                            <option value="gasto">Gasto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="monto">Monto</label>
+                        <input type="number" class="form-control" id="monto" name="monto" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="motivo">Motivo</label>
+                        <input type="text" class="form-control" id="motivo" name="motivo" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                    <br>
+                    <h1>Saldo de la caja: {{ saldo }}</h1>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2>Movimientos</h2>
+                <div class="form-group">
+                    <label for="filtro_fecha">Filtrar por fecha</label>
+                    <input type="date" class="form-control" id="filtro_fecha" onchange="filtrar()">
+                </div>
+                <div class="form-group">
+                    <label for="filtro_tipo">Filtrar por tipo</label>
+                    <select class="form-control" id="filtro_tipo" onchange="filtrar()">
+                        <option value="todos">Todos</option>
+                        <option value="ingreso">Ingreso</option>
+                        <option value="gasto">Gasto</option>
+                    </select>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Monto</th>
+                            <th>Motivo</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for movimiento in movimientos %}
+                        <tr class="movimiento" data-fecha="{{ movimiento[1] }}" data-tipo="{{ movimiento[2] }}">
+                            <td>{{ movimiento[1] }}</td>
+                            <td>{{ movimiento[2] }}</td>
+                            <td>{{ movimiento[3] }}</td>
+                            <td>{{ movimiento[4] }}</td>
+                            <td><a href="/eliminar/{{ movimiento[0] }}" class="btn btn-danger">Eliminar</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+    // Función para filtrar los movimientos por fecha y tipo
+    function filtrar() {
+        // Obtener los valores de los filtros
+        var filtro_fecha = document.getElementById("filtro_fecha").value;
+        var filtro_tipo = document.getElementById("filtro_tipo").value;
+        // Obtener todos los elementos con la clase movimiento
+        var movimientos = document.getElementsByClassName("movimiento");
+        // Recorrer los movimientos y mostrar u ocultar según los filtros
+        for (var i = 0; i < movimientos.length; i++) {
+            var movimiento = movimientos[i];
+            var fecha = movimiento.getAttribute("data-fecha");
+            var tipo = movimiento.getAttribute("data-tipo");
+            var mostrar = true;
+            // Si el filtro de fecha no está vacío, comparar con la fecha del movimiento
+            if (filtro_fecha != "") {
+                mostrar = mostrar && (fecha == filtro_fecha);
+            }
+            // Si el filtro de tipo no es todos, comparar con el tipo del movimiento
+            if (filtro_tipo != "todos") {
+                mostrar = mostrar && (tipo == filtro_tipo);
+            }
+            // Mostrar u ocultar el movimiento según el resultado de los filtros
+            if (mostrar) {
+                movimiento.style.display = "";
+            } else {
+                movimiento.style.display = "none";
+            }
+        }
+    }
+</script>
+</html>
+{% endblock %}
